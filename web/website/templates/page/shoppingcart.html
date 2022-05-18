@@ -1,0 +1,118 @@
+!DOCTYPE html>
+<html lang="en">
+
+<head>
+   {% load static %}
+   <meta charset="UTF-8" />
+   <link rel="preconnect" href="https://fonts.googleapis.com" />
+   <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet" />
+   <link href="https://fonts.googleapis.com/css2?family=Ceviche+One&family=Quicksand&display=swap" rel="stylesheet" />
+   <link rel="stylesheet" href="{% static 'page/css/Style.css' %} " />
+   <link rel="stylesheet" href="{% static 'page/css/responsive.css' %} ">
+   <link rel="stylesheet" href="{% static 'page/img/fontawesome-free-5.12.1-web/css/all.css' %}" />
+   <link rel="stylesheet" href="{% static 'page/css/order.css' %} " />
+<!--   <script src="./src/validator.js"></script>-->
+   <title>NAK Shop</title>
+</head>
+
+<body>
+   <header>
+      <div class="nav">
+         <ul class="nav-list">
+            <li><a href="/">Trang chủ</a></li><i class="fas fa-chevron-down"></i>
+            <li><a href="#">Tin Tức</a></li>
+            <li><a href="#footer">Liên Hệ</a></li>
+         </ul>
+<!--         <div class="login-register">-->
+<!--            <a href="#" class="js-login">Đăng Nhập</a>|<a href="#" class="js-register">Đăng Ký</a>-->
+<!--         </div>-->
+      </div>
+      <div class="sub-header">
+         <span class="sign">Nak shop</span>
+         <i class="slogan">Mua sắm thả ga! Săn voucher cực khủng trong hôm nay!</i>
+      </div>
+      <div class="nav-content">
+         <ul class="nav-content-list">
+            {% if listcat%}
+               {% for cat in listcat %}
+                  <li><a href="/page/productcat/{{cat.id}}" typeproduct="{{cat.title}}">{{cat.title}}</a></li>
+               {% endfor%}
+            {% else %}
+                <li><a href="#" typeproduct="{{cat.title}}">Empty!!</a></li>
+            {% endif %}
+         </ul>
+         <div class="search">
+            <input class="search-ip" type="text" placeholder="Bạn muốn mua gì ?" />
+            <a href="#"><i class="fas fa-search"></i></a>
+         </div>
+         <div class="cart-icon">
+            <a href="#" onclick="openModal($('.cart'))">
+               Giỏ Hàng
+               <i class="fas fa-shopping-cart"></i>
+            </a>
+         </div>
+      </div>
+   </header>
+
+      <div class="content">
+         <p>
+            Do ảnh hưởng của dịch Covid-19, một số khu vực có thể nhận hàng chậm
+            hơn dự kiến. Nak shop đang nỗ lực giao các đơn hàng trong thời gian
+            sớm nhất. Cám ơn sự thông cảm của quý khách!
+         </p>
+         <div class="content-container">
+            <div class="content-container-header">
+               <h3>Đơn hàng</h3>
+               <ul>
+                  {% for order_item in object.items.all %}
+                     <li>
+                        <div class="info">
+                           <img src="{% static 'page/img/' %}{{order_item.item.img}}" alt="img" />
+                           <p>{{order_item.item.title}}</p>
+                        </div>
+                        <div class="quantity">
+
+                           <p>số lượng :<a href="{% url 'web:add-to-cart' order_item.item.slug %}">+</a> {{order_item.quantity}} <a href="{% url 'web:remove-single-item-from-cart' order_item.item.slug%} ">-</a></p>
+
+                        </div>
+                        <p class="total-price-product">Thành tiền:{{order_item.get_total_item_price}}đ </p>
+                        <a id="dlt" href="{% url 'web:remove-from-cart' order_item.item.slug %}">Xóa khỏi giỏ hàng</a>
+                     </li>
+                  {% endfor %}
+
+               </ul>
+               <br />
+               <h4 class="total-price">Tổng tiền:{{object.get_total}}đ</h4>
+            </div>
+            <div class="content-container-body">
+                  <div class="submit"><button><a href="{% url 'web:checkout' %}" >ĐẶT MUA</button></a></div>
+            </div>
+         </div>
+      </div>
+
+   <footer id="footer">
+      <div class="customer-support">
+         <h3>Hỗ trợ khách hàng</h3>
+         <p>Hotline: 083388833</p>
+         <p>(Tổng đài hỗ trợ 24/24, phí gọi 1000đ/phút)</p>
+      </div>
+      <div class="support">
+         <h3>Hợp tác</h3>
+         <p><a href="https://www.facebook.com/anhkietdepcmntrai">@NAK</a></p>
+      </div>
+      <div class="connect">
+         <h3>Kết nối với chúng tôi</h3>
+         <a href=""><i class="fab fa-facebook"></i></a>
+         <a href=""><i class="far fa-envelope"></i></a>
+         <a href=""><i class="fab fa-youtube-square"></i></a>
+      </div>
+   </footer>
+
+   <div class="modal">
+      <div class="modal-form"></div>
+   </div>
+
+   <script src="{% static 'page/src/index.js' %}"></script>
+</body>
+
+</html>

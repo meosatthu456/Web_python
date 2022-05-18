@@ -1,0 +1,17 @@
+{% extends 'page/index.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% for pro in listpro %}
+       <li class="products">
+          <a href="/page/pro_info/{{pro.id}}" index="${i}"><img src="{% static 'page/img/'%}{{pro.img}}" alt="product" /></a>
+          <div class="products-content">
+             <p class="price">{{ pro.price }}đ</p>
+             <p class="description">{{ pro.title }}</p>
+             <button class="buy js-buy" onclick="addcart({{pro.id}})">Thêm vào giỏ hàng</button>
+          </div>
+       </li>
+    {%endfor%}
+
+{% endblock %}

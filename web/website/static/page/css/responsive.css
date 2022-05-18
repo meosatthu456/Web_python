@@ -1,0 +1,41 @@
+@media (min-width: 1024px)
+{
+    
+}
+/* tablet */
+@media (min-width: 770px) and (max-width: 1023px)
+{
+    .cart{
+        padding: 10px;
+    }
+    .search {
+        display: inline-block;
+    }
+}
+
+@media (max-width: 856px){
+
+}
+
+/* mobile */
+
+@media (max-width: 769px) {
+    .search {
+        padding: 6px;
+        display: inline-block;
+    }
+    .nav li{
+        display: block;
+    }
+    .nav .fa-chevron-down{
+        display: inline-block;
+    }
+    .nav li:first-child{
+        display: inline-block;
+    }
+    .nav .fa-chevron-down{
+    display: inline-block;
+}
+
+    
+}

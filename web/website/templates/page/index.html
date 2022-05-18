@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   {% load static %}
+   <meta charset="UTF-8" />
+   <link rel="preconnect" href="https://fonts.googleapis.com" />
+   <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet" />
+   <link href="https://fonts.googleapis.com/css2?family=Ceviche+One&family=Quicksand&display=swap" rel="stylesheet" />
+   <link rel="stylesheet" href="{% static 'page/css/Style.css' %} " />
+   <link rel="stylesheet" href="{% static 'page/css/responsive.css' %} ">
+   <link rel="stylesheet" href="{% static 'page/img/fontawesome-free-5.12.1-web/css/all.css' %}" />
+   <script src="{% static 'page/src/validator.js' %}"></script>
+<!--   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>-->
+   <script src="{% static 'page/src/ajax.js' %}"></script>
+
+   <title>NAK Shop</title>
+</head>
+
+<body>
+   <header>
+      <div class="nav">
+         <ul class="nav-list">
+            <li><a href="/">Trang chủ</a></li><i class="fas fa-chevron-down"></i>
+            <li><a href="#">Tin Tức</a></li>
+            <li><a href="#footer">Liên Hệ</a></li>
+         </ul>
+
+         {% if request.user.is_authenticated %}
+            <div class="login-register">
+               <a href="#" class="js-login">Xin chào {{request.user.username}} !</a>
+            </div>
+         {% endif %}
+
+      </div>
+      <div class="sub-header">
+         <span class="sign">Nak shop</span>
+         <i class="slogan">Mua sắm thả ga! Săn voucher cực khủng trong hôm nay!</i>
+      </div>
+      <div class="nav-content">
+         <ul class="nav-content-list">
+            {% if listcat%}
+               {% for cat in listcat %}
+                  <li><a href="/page/productcat/{{cat.id}}" typeproduct="{{cat.title}}">{{cat.title}}</a></li>
+               {% endfor%}
+            {% else %}
+                <li><a href="#" typeproduct="{{cat.title}}">Empty!!</a></li>
+            {% endif %}
+         </ul>
+         <div class="search">
+            <input class="search-ip" type="text" placeholder="Bạn muốn mua gì ?" />
+            <a href="#"><i class="fas fa-search"></i></a>
+         </div>
+         {% if request.user.is_authenticated %}
+
+            <div class="cart-icon">
+            <a href="order-summary/">
+               Giỏ Hàng
+               <i class="fas fa-shopping-cart"></i>
+            </a>
+            </div>
+
+            <div class="cart-icon">
+               <a href="{% url 'account_logout' %}">
+                  Đăng xuất
+               </a>
+            </div>
+
+         {% else %}
+            <div class="cart-icon">
+            <a href="{% url 'account_login' %}">
+               Đăng nhập
+            </a>
+         </div>
+         {% endif %}
+      </div>
+   </header>
+
+   <div class="content">
+      <div class="col-2 product">
+         {% if is_paginated %}
+            <ul class="product-pages">
+               {% if page_obj.has_previous %}
+                  <li class="product-pages-number" index="">
+                     <a href="?page={{ page_obj.previous_page_number }}"><</a>
+                  </li>
+               {% endif %}
+
+                  <li class="product-pages-number" index="">
+                     <a href="?page={{ page_obj.number }}">{{page_obj.number}}</a>
+                  </li>
+
+               {% if page_obj.has_next %}
+                  <li class="product-pages-number" index="">
+                     <a href="?page={{ page_obj.next_page_number }}">></a>
+                  </li>
+               {% endif %}
+            </ul>
+         {% endif %}
+         <ul class="product-list">
+            {% block content %}
+
+            {% endblock %}
+         </ul>
+      </div>
+
+      <div class="col-2">
+         <div class="top-sale">
+            <h3>Bán chạy</h3>
+            <select name="" id="" onchange="viewTopSale(this.value);">
+               <option value="ngay">Ngày</option>
+               <option value="thang">Tháng</option>
+               <option value="nam">Năm</option>
+            </select>
+            <ul class="product-list">
+               <li class="products">
+                  <img src="{% static 'page/img/aonu1.PNG' %}" alt="product" />
+                  <div class="products-content">
+                     <p class="price">99000990 đ</p>
+                     <p class="description">Áo banaca lona giành cho nữ</p>
+                     <button class="buy">Mua ngay</button>
+                  </div>
+               </li>
+               <li class="products">
+                  <img src="{% static 'page/img/aonam1.PNG' %}" alt="product" />
+                  <div class="products-content">
+                     <p class="price">300.000 đ</p>
+                     <p class="description">áo nam năng động cá tính</p>
+                     <button class="buy">Mua ngay</button>
+                  </div>
+               </li>
+            </ul>
+         </div>
+      </div>
+      <div class="clear"></div>
+   </div>
+
+   <footer id="footer">
+      <div class="customer-support">
+         <h3>Hỗ trợ khách hàng</h3>
+         <p>Hotline: 083388833</p>
+         <p>(Tổng đài hỗ trợ 24/24, phí gọi 1000đ/phút)</p>
+      </div>
+      <div class="support">
+         <h3>Hợp tác</h3>
+         <p><a href="https://www.facebook.com/anhkietdepcmntrai">@NAK</a></p>
+      </div>
+      <div class="connect">
+         <h3>Kết nối với chúng tôi</h3>
+         <a href=""><i class="fab fa-facebook"></i></a>
+         <a href=""><i class="far fa-envelope"></i></a>
+         <a href=""><i class="fab fa-youtube-square"></i></a>
+      </div>
+   </footer>
+
+   <div class="modal">
+      <div class="modal-form"></div>
+   </div>
+
+   <div class="cart">
+      <div class="modal-cart">
+         <div class="cart-head">
+            <h3>Giỏ hàng</h3><i class="fas fa-times" onclick="closeModal($('.cart'))"></i>
+         </div>
+         <div class="cart-body">
+            <div class="sub-cart">
+               <p>Thông tin Sản phẩm</p>
+               <p>Giá tiền</p>
+               <p>số lượng</p>
+               <p>tổng </p>
+            </div>
+            <ul class="cart-list">
+
+            </ul>
+         </div>
+         <div class="cart-footer">
+            <div class="total-price-cart">
+               <span>Tổng :</span> <span class="total-price">0 đ</span>
+            </div>
+            <button class="continue" onclick="closeModal($('.cart'))"> Tiếp tục mua hàng</button>
+            <button class="clean-cart"><i class="fas fa-dumpster"></i> Xóa hết</button>
+            <button class="pay-cart"><a href="./order.html">Đặt hàng >></a></button>
+         </div>
+      </div>
+   </div>
+
+
+   <script src="{% static 'page/src/index.js' %}"></script>
+</body>
+
+</html>

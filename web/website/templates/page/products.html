@@ -1,0 +1,17 @@
+{% extends 'page/index.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% for pro in object_list %}
+       <li class="products">
+          <a href="{{pro.get_absolute_url}}" index="{{pro.id}}"><img src="{% static 'page/img/'%}{{pro.img}}" alt="product" /></a>
+          <div class="products-content">
+             <p class="price">{{ pro.price }}đ</p>
+             <p class="description">{{ pro.title }}</p>
+<!--                 <button class="buy js-buy" onclick="pro.get_add_to_cart_url">Thêm vào giỏ hàng</button>-->
+          </div>
+       </li>
+    {%endfor%}
+
+{% endblock %}
